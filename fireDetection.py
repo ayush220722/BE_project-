@@ -23,10 +23,18 @@
 #         break
 
 import cv2
-from playsound import playsound
+from plyer import notification
+import datetime
+# from playsound import playsound
+def notify_me(title,message):
+    notification.notify(
+        title=title,
+        message=message,
+        timeout=10
+    )
 
 # Load the cascade classifier for fire detection
-fire_cascade = cv2.CascadeClassifier("D:\BE PROJECT\fire detection-20240208T133618Z-001\fire detection-20240208T133618Z-001\fire detection\fire_detection.xml")
+fire_cascade = cv2.CascadeClassifier("D:/BE PROJECT/fire detection-20240208T133618Z-001/fire detection-20240208T133618Z-001/fire detection/fire_detection.xml")
 
 # Open the default camera (usually webcam)
 cap = cv2.VideoCapture(0)
@@ -45,9 +53,12 @@ while True:
     # Loop through the detected fires and draw rectangles around them
     for (x, y, w, h) in fires:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-        print("Fire detected!")  # Optional: Print a message when fire is detected
+        print("Fire detected!") 
+        curr_time=datetime.datetime.now()
+        curr_time=str(curr_time)
+        notify_me("FIRE SPOTTED","CURRENT TIME: "+curr_time)  # Optional: Print a message when fire is detected
         # Play the audio file when fire is detected
-        playsound("D:\BE PROJECT\fire detection-20240208T133618Z-001\fire detection-20240208T133618Z-001\fire detection\audio.mp3")
+        #playsound("D:/BE PROJECT/fire detection-20240208T133618Z-001/fire detection-20240208T133618Z-001/fire detection/audio.mp3")
     
     # Display the frame
     cv2.imshow('Fire Detection', frame)
